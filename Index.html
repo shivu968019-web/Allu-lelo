@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Allu LeLo - Sabzi Online Mangvaye</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f2f6f5;
+      color: #333;
+    }
+
+    header {
+      background: #27ae60;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+
+    .container {
+      padding: 1em;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .product {
+      background: white;
+      margin: 1em 0;
+      padding: 1em;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product button {
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cart {
+      background: #fff;
+      padding: 1em;
+      border-radius: 8px;
+      margin-top: 2em;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5em;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 1em;
+    }
+
+    @media (max-width: 600px) {
+      .product {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🥕 Allu LeLo</h1>
+    <p>Fresh sabzi seedhe ghar tak</p>
+  </header>
+
+  <div class="container">
+    <h2>Sabzi Ka Rate Card</h2>
+
+    <div class="product">
+      <span>Aloo - ₹20/kg</span>
+      <button onclick="addToCart('Aloo', 20)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <span>Pyaz - ₹30/kg</span>
+      <button onclick="addToCart('Pyaz', 30)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <span>Tomato - ₹25/kg</span>
+      <button onclick="addToCart('Tomato', 25)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <span>Palak - ₹15/kg</span>
+      <button onclick="addToCart('Palak', 15)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <span>Gajar - ₹40/kg</span>
+      <button onclick="addToCart('Gajar', 40)">Add to Cart</button>
+    </div>
+
+    <div class="cart">
+      <h3>🛒 Aapki Cart</h3>
+      <div id="cart-items"></div>
+      <div class="total" id="total">Total: ₹0</div>
+      <br />
+      <button onclick="placeOrder()">Order Karein</button>
+    </div>
+  </div>
+
+  <script>
+    let cart = {};
+
+    function addToCart(item, price) {
+      if (cart[item]) {
+        cart[item].qty += 1;
+      } else {
+        cart[item] = { price: price, qty: 1 };
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartDiv = document.getElementById('cart-items');
+      const totalDiv = document.getElementById('total');
+      cartDiv.innerHTML = '';
+      let total = 0;
+
+      for (let item in cart) {
+        const { price, qty } = cart[item];
+        total += price * qty;
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerText = `${item} x ${qty} = ₹${price * qty}`;
+        cartDiv.appendChild(itemDiv);
+      }
+
+      totalDiv.innerText = `Total: ₹${total}`;
+    }
+
+    function placeOrder() {
+      if (Object.keys(cart).length === 0) {
+        alert("Cart khali hai! Kuch add karein.");
+        return;
+      }
+      alert("Order placed! Jald hi aapki sabzi pahuchegi. Dhanyawaad 🙏");
+      cart = {};
+      updateCart();
+    }
+  </script>
+
+</body>
+</html>
